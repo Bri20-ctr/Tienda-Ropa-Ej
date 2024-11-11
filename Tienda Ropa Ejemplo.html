@@ -1,0 +1,409 @@
+<html><head><base href="." />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ejemplo Tienda - Tienda de Ropa</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+:root {
+  --primary-color: #1a1a1a;
+  --secondary-color: #2c2c2c;
+  --accent-color: #c9a95c;
+  --text-color: #ffffff;
+}
+
+body {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  background-color: var(--secondary-color);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--accent-color);
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--accent-color);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--accent-color);
+  transition: all 0.3s ease;
+}
+
+.user-profile:hover {
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.shopping-cart {
+  position: relative;
+}
+
+.shopping-cart i {
+  color: var(--accent-color);
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.shopping-cart:hover i {
+  transform: scale(1.2);
+}
+
+.cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  background-color: var(--secondary-color);
+  padding: 1rem;
+  width: 100%;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.category-section {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.category-card {
+  background-color: var(--secondary-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.category-card:hover::before {
+  opacity: 0.9;
+  transform: scale(1.1);
+}
+
+.category-card:hover .category-content {
+  transform: translateY(-10px);
+}
+
+.category-content {
+  position: relative;
+  z-index: 1;
+  color: var(--text-color);
+  transition: transform 0.3s ease;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.category-icon {
+  font-size: 2.5rem;
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+}
+
+.category-card:nth-child(1)::before {
+  background-image: url('https://images.unsplash.com/photo-1516257984-b1b4d707412e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+}
+
+.category-card:nth-child(2)::before {
+  background-image: url('https://images.unsplash.com/photo-1581044777550-4cfa60707c03?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+}
+
+.category-card:nth-child(3)::before {
+  background-image: url('https://images.unsplash.com/photo-1514090458221-65bb69cf63e6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 4rem;
+  padding: 0 2rem;
+}
+
+.product-card {
+  background-color: var(--secondary-color);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.1);
+}
+
+.product-info {
+  padding: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.product-card:hover .product-info {
+  background-color: var(--accent-color);
+}
+
+.product-title {
+  font-size: 1.1rem;
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.product-card:hover .product-title,
+.product-card:hover .product-price {
+  color: var(--primary-color);
+}
+
+.product-price {
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+footer {
+  background-color: var(--secondary-color);
+  padding: 2rem;
+  text-align: center;
+  margin-top: auto;
+}
+
+.creators {
+  color: var(--accent-color);
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.category-card {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.category-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.category-card:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@media (max-width: 900px) {
+  .category-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-links">
+      <a href="https://example.com/inicio">Inicio</a>
+      <a href="https://example.com/novedades">Novedades</a>
+      <a href="https://example.com/ofertas">Ofertas</a>
+      <a href="https://example.com/contacto">Contacto</a>
+    </div>
+    <div class="nav-links">
+      <div class="shopping-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+      </div>
+      <div class="user-profile">
+        <div class="user-avatar">B</div>
+        <span>Brian Sabil</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="logo">Ejemplo Tienda</div>
+
+  <section class="category-section">
+    <div class="category-grid">
+      <div class="category-card">
+        <div class="category-content">
+          <div class="category-icon">
+            <i class="fas fa-male"></i>
+          </div>
+          <h3>Hombre</h3>
+          <p>Elegancia y estilo para el hombre moderno</p>
+        </div>
+      </div>
+      <div class="category-card">
+        <div class="category-content">
+          <div class="category-icon">
+            <i class="fas fa-female"></i>
+          </div>
+          <h3>Mujer</h3>
+          <p>Moda sofisticada para cada ocasión</p>
+        </div>
+      </div>
+      <div class="category-card">
+        <div class="category-content">
+          <div class="category-icon">
+            <i class="fas fa-child"></i>
+          </div>
+          <h3>Niños</h3>
+          <p>Comodidad y estilo para los más pequeños</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')"></div>
+        <div class="product-info">
+          <h4 class="product-title">Remera Classic</h4>
+          <p class="product-price">$29.99</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')"></div>
+        <div class="product-info">
+          <h4 class="product-title">Pantalón Slim</h4>
+          <p class="product-price">$49.99</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')"></div>
+        <div class="product-info">
+          <h4 class="product-title">Falda</h4>
+          <p class="product-price">$39.99</p>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1559334417-a57bd929f003?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80')"></div>
+        <div class="product-info">
+          <h4 class="product-title">Top Verano</h4>
+          <p class="product-price">$24.99</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2024 Ejemplo Tienda - Todos los derechos reservados</p>
+    <p class="creators">Creado por Brian, Bogado, Emiliano</p>
+  </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const categoryCards = document.querySelectorAll('.category-card');
+    const productCards = document.querySelectorAll('.product-card');
+    
+    categoryCards.forEach(card => {
+        card.addEventListener('click', function() {
+            console.log('Category clicked:', this.querySelector('h3').textContent);
+        });
+    });
+
+    productCards.forEach(card => {
+        card.addEventListener('click', function() {
+            console.log('Product clicked:', this.querySelector('.product-title').textContent);
+        });
+    });
+});
+</script>
+</body>
+</html>
